@@ -1,7 +1,7 @@
 ---
 Date_of_creation: 2025-06-02 월 12:49:51
 Last_modified:
-  - 2025-06-02 월 12:59:49
+  - 2025-06-02 월 13:19:58
 aliases:
   - DB 구축 프로젝트
   - 데이터베이스 구축 프로젝트
@@ -9,7 +9,7 @@ aliases:
   - Baduk Plus README
 tags:
   - 공부/3학년_1학기/DB설계와_활용
-Reference:
+Reference: 
 ---
 # Baduk Plus
 ---
@@ -18,13 +18,15 @@ Reference:
 ## 📘 프로젝트 개요
 ---
 Baduk Plus는 바둑 대국의 수순과 관련 정보를 체계적으로 저장하고, Firebase를 이용해 실시간으로 대국 상황을 중계할 수 있도록 하는 시스템입니다.
-이를 통해 데이터의 정형 저장(분석 목적)과 실시간 전송(관전 목적)을 동시에 만족합니다.
+이 프로젝트는 MySQL과 Firebase의 구조적 차이를 체험하며, 데이터 설계 및 연동 능력을 동시에 기르는 데 목적이 있습니다.
 
 ## 🧠 프로젝트 목표
 ---
-- MySQL과 Firebase의 구조적 차이와 장단점을 직접 체험
-- 실시간 데이터 흐름과 정형 데이터 저장을 동시에 다루는 복합 시스템 설계 경험
-- 자동화, 실시간성, UI 등 실제 서비스 구성 요소들을 구현
+1. 자신만의 주제를 바탕으로 실시간 + 정형 데이터 시스템 구현
+2. MySQL과 Firebase의 구조와 목적의 차이를 직접 체험
+3. Python을 활용하여 양쪽 시스템을 연동
+4. 자동화된 더미 데이터 생성 및 저장 처리
+5. 웹 기반의 시각적 인터페이스(UI) 구현
 
 ## 🏗️ 핵심 기능
 ---
@@ -35,21 +37,21 @@ Baduk Plus는 바둑 대국의 수순과 관련 정보를 체계적으로 저장
 | 수순 기록               | 각 수의 좌표, 색깔, 착점까지 걸린 시간 등 수순 정보 관리            |
 | 실시간 대국 중계        | Firebase를 통해 현재 대국의 수순을 실시간으로 반영                  |
 | 더미 데이터 자동 생성   | Python 스크립트를 활용해 랜덤한 기보 자동 생성 및 Firebase 저장     |
-| 실시간 UI 조회          | 실시간 대국 상황을 관전할 수 있는 인터페이스 제공                  |
+| 실시간 UI 조회          | 웹 브라우저에서 대국 상황을 실시간 관전 가능                        |
 | 데이터 연동             | Firebase ↔ MySQL 간의 정보 동기화 설계                              |
 
 ## 🔧 사용 기술
 ---
-- MySQL
+- MySQL (ERD, 프로시저, 제약조건 포함)
 - Firebase Realtime Database
-- Python
-- Mermaid.js
-- (선택) 웹 UI: Flask, HTML, JS 등
+- Python (firebase-admin, pymysql 등)
+- HTML + JS (웹 UI)
+- Mermaid.js (ERD 시각화)
 
 ## 📁 프로젝트 구조
 ---
 ```
-baduk-Plus/
+baduk-plus/
 ├── MySQL/
 │   ├── erd.mmd
 │   ├── schema.sql
