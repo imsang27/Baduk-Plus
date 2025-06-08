@@ -11,7 +11,7 @@ FIREBASE_DB_URL = os.getenv("FIREBASE_DB_URL")
 
 # Firebase 인증 및 초기화
 try:
-    cred = credentials.Certificate("./firebase_auth.json")
+    cred = credentials.Certificate("firebase_auth.json")
     if not firebase_admin._apps:
         firebase_admin.initialize_app(cred, {
             "databaseURL": FIREBASE_DB_URL
