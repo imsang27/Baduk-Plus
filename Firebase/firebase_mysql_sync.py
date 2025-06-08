@@ -1,47 +1,66 @@
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, db
+import sys
+import os
+from dotenv import load_dotenv
+
+# 상위 디렉토리를 Python 경로에 추가
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from MySQL.mysql_connection import get_mysql_connection, close_connection
 import json
 import time
 
+load_dotenv()
+FIREBASE_DB_URL = os.getenv("FIREBASE_DB_URL")
+
 # Firebase 초기화
-cred = credentials.Certificate('firebase_auth.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+cred = credentials.Certificate('./Firebase/firebase_auth.json')
+firebase_admin.initialize_app(cred, {
+    'databaseURL': FIREBASE_DB_URL
+    })
 
 def sync_firebase_to_mysql():
     """
     Firebase의 대국 결과를 MySQL로 동기화하는 함수
     """
     try:
+        print("MySQL 연결 시도...")
         # MySQL 연결
         mysql_conn = get_mysql_connection()
         if not mysql_conn:
+            print("MySQL 연결 실패")
             return
         
         cursor = mysql_conn.cursor()
+        print("MySQL 연결 성공")
         
-        # Firebase에서 대국 데이터 가져오기
-        games_ref = db.collection('games')
-        games = games_ref.get()
+        # Firebase에서 기보 데이터 가져오기
+        print("Firebase에서 데이터 가져오기 시도...")
+        gibos_ref = db.reference('기보')
+        gibos = gibos_ref.get()
         
-        for game in games:
-            game_data = game.to_dict()
-            
-            # 대국 결과만 MySQL에 저장
-            if '대국 결과' in game_data:
-                sql = """
-                    INSERT INTO game_results (game_id, result)
-                    VALUES (%s, %s)
-                    ON DUPLICATE KEY UPDATE
-                    result = VALUES(result)
-                """
-                values = (
-                    game.id,
-                    game_data['대국 결과']
-                )
-                
-                cursor.execute(sql, values)
+        if gibos:
+            print(f"Firebase에서 {len(gibos)}개의 기보 데이터를 가져왔습니다.")
+            for game_id, gibo_data in gibos.items():
+                print(f"기보 {game_id} 처리 중...")
+                # 대국 결과가 있는 경우에만 처리
+                if '대국 결과' in gibo_data:
+                    sql = """
+                        INSERT INTO game_results (game_id, result)
+                        VALUES (%s, %s)
+                        ON DUPLICATE KEY UPDATE
+                            result = VALUES(result)
+                    """
+                    result = json.dumps(gibo_data['대국 결과'], ensure_ascii=False)
+                    values = (game_id, result)
+                    
+                    try:
+                        cursor.execute(sql, values)
+                        print(f"대국 결과 동기화 성공: {game_id} - {result}")
+                    except Exception as e:
+                        print(f"SQL 실행 중 오류 발생: {e}")
+        else:
+            print("Firebase에서 가져온 데이터가 없습니다.")
         
         mysql_conn.commit()
         print("Firebase에서 MySQL로 대국 결과 동기화 완료")
@@ -55,37 +74,23 @@ def sync_firebase_to_mysql():
         if 'mysql_conn' in locals():
             close_connection(mysql_conn)
 
-def on_snapshot(doc_snapshot, changes, read_time):
+def on_value_change(event):
     """
-    Firebase 문서 변경을 감지하는 콜백 함수
+    Firebase 데이터 변경을 감지하는 콜백 함수
     """
-    for change in changes:
-        if change.type.name == 'ADDED' or change.type.name == 'MODIFIED':
-            print(f'대국 결과 변경 감지: {change.document.id}')
-            sync_firebase_to_mysql()
-        elif change.type.name == 'REMOVED':
-            print(f'대국 결과 삭제 감지: {change.document.id}')
-            # 삭제된 대국 결과 처리
-            try:
-                mysql_conn = get_mysql_connection()
-                if mysql_conn:
-                    cursor = mysql_conn.cursor()
-                    cursor.execute("DELETE FROM game_results WHERE game_id = %s", (change.document.id,))
-                    mysql_conn.commit()
-                    cursor.close()
-                    close_connection(mysql_conn)
-                    print(f"MySQL에서 대국 결과 {change.document.id} 삭제 완료")
-            except Exception as e:
-                print(f"삭제 처리 중 오류 발생: {e}")
+    print(f'데이터 변경 감지: {event.path}')
+    sync_firebase_to_mysql()
 
 def start_realtime_sync():
     """
     Firebase 실시간 동기화 시작
     """
     print("Firebase 실시간 동기화 시작...")
-    # games 컬렉션의 변경사항 감지
-    games_ref = db.collection('games')
-    games_ref.on_snapshot(on_snapshot)
+    
+    # 기보 데이터의 변경사항 감지
+    gibos_ref = db.reference('기보')
+    gibos_ref.listen(on_value_change)
+    print("기보 데이터 리스너 설정 완료")
     
     # 프로그램이 계속 실행되도록 유지
     try:
