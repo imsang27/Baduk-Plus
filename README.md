@@ -13,9 +13,9 @@ tags:
   - 공부/3학년_1학기/DB설계와_활용
 Reference: 
 ---
-# Baduk Plus
----
-바둑 대국 정보를 실시간으로 추적하고, MySQL과 Firebase 양쪽에 기록하는 실시간 연동 시스템입니다.
+# Baduk-Plus
+
+이 프로젝트는 바둑 대국의 모든 정보를 Firebase에 저장하고, 그 중 "대국 결과"만 MySQL로 동기화하는 실습 프로젝트입니다.
 
 ## 📘 프로젝트 개요
 ---
@@ -53,17 +53,16 @@ Baduk Plus는 바둑 대국의 수순과 관련 정보를 체계적으로 저장
 ## 📁 프로젝트 구조
 ---
 ```
-baduk-plus/
-├── MySQL/
-│   ├── erd.mmd
-│   ├── schema.sql
-│   └── procedures.sql
-├── Firebase/
-│   ├── simulate_match.py
-│   ├── firebase_structure.png
-├── Interface/
-│   ├── viewer.html
-│   └── ui_screenshots/
+Baduk-Plus/
+├── Firebase/   # DB 구조 스크린샷, 연동 코드 등
+│   ├── firebase_mysql_sync.py
+│   ├── firebase_update.py
+│   ├── generate_baduk_gibo.py
+│   ├── firebase_structure.json
+│   └── ...
+├── MySQL/      # ERD, 테이블 생성 SQL, 프로시저 등 등
+│   ├── mysql_tables.sql
+│   └── mysql_connection.py
 └── README.md
 ```
 
@@ -124,4 +123,51 @@ MYSQL_PASSWORD = your_password
 2. 필요한 Python 패키지 설치:
 ```bash
 pip install mysql-connector-python python-dotenv
+```
+
+## ERD/테이블 구조
+
+- MySQL: `game_results` 테이블 (game_id, result, created_at)
+- Firebase: games/{game_id}/대국 결과
+
+## 예시 데이터 구조
+
+Firebase:
+```json
+{
+  "games": {
+    "20240609_001": {
+      "기전명": "더미_대국_20240609_001",
+      "대국자": {
+        "흑": { "이름": "Lee Sedol", "기력": "9단", "프로기사": true },
+        "백": { "이름": "AlphaGo", "기력": "9단", "프로기사": false }
+      },
+      "대국 규칙": {
+        "룰": "한국룰",
+        "덤": "흑 공제 6.5집",
+        "시간 설정": {
+          "제한시간": "2시간 30분",
+          "초읽기": "30초 초읽기 3번"
+        }
+      },
+      "수순": { ... },
+      "대국 상태": "종료",
+      "대국 결과": {
+        "승자": "흑",
+        "승리_방식": "집계승",
+        "집차이": "2.5집",
+        "총수순": "150수"
+      }
+    }
+  }
+}
+```
+
+MySQL:
+```sql
+CREATE TABLE game_results (
+    game_id VARCHAR(255) PRIMARY KEY,
+    result VARCHAR(50) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 ```
