@@ -60,9 +60,13 @@ if __name__ == "__main__":
     time_info = generate_time_settings()
     result_info = generate_game_result()
     num_moves = random.randint(10, 15)
+    
+    # 현재 시간을 기반으로 고유한 기전명 생성
+    current_time = datetime.now()
+    tournament_name = f"더미_대국_{current_time.strftime('%Y%m%d_%H%M%S')}"
 
     baduk_game = {
-        "기전명": "dummy_대국_001",
+        "기전명": tournament_name,
         "대국자": {
             "흑": { "이름": "흑번", "기력": "초단", "프로기사": False },
             "백": { "이름": "백번", "기력": "2단", "프로기사": False }
