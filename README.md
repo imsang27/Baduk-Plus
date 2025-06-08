@@ -95,7 +95,7 @@ baduk-plus/
 - [x] 더미 데이터 생성 스크립트 작성 (`generate_baduk_gibo.py`)
 - [x] Firebase에 더미 수순 자동 삽입 (`simulate_match.py`)
 - [ ] MySQL-Firebase 간 연동 구현
-- [ ] Firebase -> MySQL로 가는 단방향 동기화 구현 (예: 결과 요약을 MySQL로 동기화)
+  - [ ] Firebase -> MySQL로 가는 단방향 동기화 구현 (예: 결과 요약을 MySQL로 동기화)
 
 ### 👁️ 5. 시각화 및 UI
 - [ ] 실시간 UI 구현 (`viewer.html`)
