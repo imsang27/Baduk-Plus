@@ -1,6 +1,7 @@
 ---
 Date_of_creation: 2025-06-05 목 22:05:36
 Last_modified:
+  - 2025-06-09 월 03:47:00
   - 2025-06-07 토 22:03:43
   - 2025-06-05 목 22:27:59
   - "2025-06-04 수 15: 01:41"
@@ -20,49 +21,49 @@ Baduk Plus는 바둑 대국의 모든 정보를 Firebase에 저장하고, 그 �
 # 2. 요구사항 요약
 ---
 1. **자신만의 주제를 정한다.**
-    **=> **
     - _이 프로젝트의 가장 핵심이 되는 항목입니다._
-    - _혼자서 만드는 프로젝트이니 자신만의 색깔을 분명히 나타낼 수 있는 주제로 구성해 주세요._ 
+    - _혼자서 만드는 프로젝트이니 자신만의 색깔을 분명히 나타낼 수 있는 주제로 구성해 주세요._ 
+    => [[docs/PRD|PRD]], [[docs/README|README]]
 
 2. **MySQL과 Firebase를 이용하여 각각 데이터베이스를 구축한다.
-    **=> **
     - 두 시스템을 병행하여 구조와 목적의 차이를 체험하는 것이 목표
+    => [[MySQL/create_tables|create_tables]], [[Firebase/firebase_structure|firebase_structure]], [[Firebase/firebase_auth|firebase_auth]]
 
 3. **MySQL에서는 주제에 따라 스키마를 설계하고, 테이블을 생성한다.**
-      **=> **
     - 반드시 ERD를 작성하고, 기본키/외래키/제약조건 등을 포함할 것
+    => [[MySQL/create_tables|create_tables]], [[MySQL/mysql_tables|mysql_tables]], [[docs/ERD|ERD]]
 
 4. **Firebase에서는 실시간 데이터베이스를 생성하고, 실시간 데이터를 하나 이상 수집·저장하도록 설계한다.**
-    **=> **
     - 예: 센서 시뮬레이션, 실시간 채팅, 위치 추적 등
+    => [[Firebase/firebase_update|firebase_update]], [[Firebase/firebase_structure|firebase_structure]], [[Firebase/firebase_auth|firebase_auth]]
 
 5. **MySQL과 Firebase의 연동을 자신만의 방식으로 구현한다.**
-    **=> **
     - _이 항목은 프로젝트의 도전 과제입니다._
     - 기술 스택은 자유
+    => [[Firebase/firebase_mysql_sync|firebase_mysql_sync]], [[MySQL/mysql_connection|mysql_connection]], [[Firebase/firebase_auth|firebase_auth]]
 
 6. **챗봇 또는 외부 프로그램을 활용하여 더미 데이터를 자동 생성·입력한다.**
-    **=> **
     - 단순 수동 입력이 아닌 자동화된 더미 데이터 생성 방식을 시도할 것
     - 예: ChatGPT 프롬프트로 JSON 생성 → Firebase에 저장
+    => [[Firebase/generate_baduk_gibo|generate_baduk_gibo]], [[Firebase/dummy_data|dummy_data]], [[Firebase/firebase_auth|firebase_auth]]
 
 7. **MySQL에 저장 프로시저를 구현하여 다음 기능을 포함한다.**
-    **=> **
     - 데이터 입력
     - 데이터 조회
     - 데이터 삭제
+    => [[MySQL/stored_procedures|stored_procedures]], [[MySQL/mysql_connection|mysql_connection]]
 
 8. **간단한 인터페이스(UI)나 앱을 만들어 실제 데이터를 조회하고 확인할 수 있도록 한다.**
-    **=> **
     - 웹 페이지, 모바일 앱, 콘솔 앱 등 어떤 형태든 무관
     - 조회 결과가 시각적으로 확인 가능해야 함
+    => [[Interface/app|app]], [[Interface/viewer|viewer]], [[Interface/templates|templates]], [[Interface/js|js]], [[Interface/screenshots|screenshots]]
 
 9. **전체 결과물을 압축하여 이강의동 데이터베이스 구축 프로젝트 과제로 제출한다.**
-    **=> **
     - 구성 예시:
-        - `/MySQL/` (ERD, 테이블 생성 SQL, 프로시저 등)
-        - `/Firebase/` (DB 구조 스크린샷, 연동 코드 등)
-        - `/Interface/` (UI 캡처, 설명)
+        - `/MySQL/` (ERD, 테이블 생성 SQL, 프로시저 등)
+        - `/Firebase/` (DB 구조 스크린샷, 연동 코드 등)
+        - `/Interface/` (UI 캡처, 설명)
+    => [[docs/README|README]], [[docs/PRD|PRD]], [[docs/ERD|ERD]]
 
 # 3. 주요 기능 정의
 ---
