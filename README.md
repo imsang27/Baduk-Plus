@@ -1,6 +1,8 @@
 ---
 Date_of_creation: 2025-06-02 월 12:49:51
 Last_modified:
+  - 2025-06-08 일 13:08:55
+  - 2025-06-04 수 15:06:48
   - 2025-06-02 월 13:19:58
 aliases:
   - DB 구축 프로젝트
@@ -68,3 +70,40 @@ baduk-plus/
 ## 💬 한줄 요약
 ---
 > 바둑 대국의 흐름을 실시간으로 추적하고 기록하는 이중 데이터베이스 기반의 실시간 연동 시스템입니다.
+
+## ✅ Baduk Plus 프로젝트 TODO 리스트
+
+### 🧩 1. 기본 설계 및 문서화
+- [x] 주제 선정: 바둑 대국 실시간 기록 및 중계
+- [x] README 작성
+- [x] PRD 작성 (요구사항 + 일정 포함)
+- [x] 디렉토리 구조 명확화
+
+### 🗃️ 2. MySQL 구축
+- [x] ERD 설계 ([[erd.mmd]])
+- [x] 테이블 생성 스크립트 작성 ([[schema.sql]])
+	- [x] 기본키 / 외래키 / 제약조건 등 포함
+- [x] 저장 프로시저 작성 (입력, 조회, 삭제 등) ([[procedures.sql]])
+- [ ] ERD → PDF로 시각화 (선택사항)
+
+### 🔥 3. Firebase 구축
+- [x] 실시간 DB 구조 설계
+- [x] 구조 시각화 자료 제작 (`firebase_structure.json`)
+- [x] Python을 이용한 Firebase 업데이트 코드 구현 (`simulate_match.py`)
+
+### 🔄 4. 연동 및 자동화
+- [x] 더미 데이터 생성 스크립트 작성 (`generate_baduk_gibo.py`)
+- [x] Firebase에 더미 수순 자동 삽입 (`simulate_match.py`)
+- [ ] MySQL-Firebase 간 연동 구현
+- [ ] 양방향 상태 동기화 구현 (예: 결과 요약 동기화)
+
+### 👁️ 5. 시각화 및 UI
+- [ ] 실시간 UI 구현 (`viewer.html`)
+- [ ] UI 시각자료 정리 (`ui_screenshots/`)
+- [ ] Firebase Listener로 수순 업데이트 UI 동기화
+
+### 📦 6. 최종 제출 준비
+- [ ] 전체 프로젝트 압축(zip)
+- [ ] 불필요한 파일 정리 (.log, 테스트용 데이터 등)
+- [ ] 시연 영상 또는 스크린샷 포함 (선택)
+- [ ] 제출 전 기능 점검 완료
