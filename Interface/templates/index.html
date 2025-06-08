@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>바둑 플러스 - 관리 시스템</title>
+    <title>바둑 플러스 - 게임 조회</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         .section {
             margin: 20px 0;
@@ -21,133 +20,32 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <span class="navbar-brand mb-0 h1">바둑 플러스 - 관리 시스템</span>
+            <span class="navbar-brand mb-0 h1">바둑 플러스 - 게임 조회</span>
         </div>
     </nav>
 
     <div class="container mt-4">
-        <!-- 플레이어 관리 섹션 -->
+        <!-- 게임 목록 섹션 -->
         <div class="section">
-            <h3>플레이어 관리</h3>
-            <div class="row">
-                <div class="col-md-4">
-                    <form id="playerForm" class="mb-3">
-                        <div class="mb-3">
-                            <label for="playerName" class="form-label">플레이어 이름</label>
-                            <input type="text" class="form-control" id="playerName" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">플레이어 추가</button>
-                    </form>
-                </div>
-                <div class="col-md-8">
-                    <div class="table-responsive">
-                        <table class="table" id="playersTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>이름</th>
-                                    <th>생성일</th>
-                                    <th>작업</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 게임 관리 섹션 -->
-        <div class="section">
-            <h3>게임 관리</h3>
-            <div class="row">
-                <div class="col-md-4">
-                    <form id="gameForm" class="mb-3">
-                        <div class="mb-3">
-                            <label for="blackPlayer" class="form-label">흑돌 플레이어</label>
-                            <select class="form-select" id="blackPlayer" required></select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="whitePlayer" class="form-label">백돌 플레이어</label>
-                            <select class="form-select" id="whitePlayer" required></select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="blackScore" class="form-label">흑돌 점수</label>
-                            <input type="number" class="form-control" id="blackScore" step="0.5" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="whiteScore" class="form-label">백돌 점수</label>
-                            <input type="number" class="form-control" id="whiteScore" step="0.5" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="winner" class="form-label">승자</label>
-                            <select class="form-select" id="winner" required>
-                                <option value="black">흑돌</option>
-                                <option value="white">백돌</option>
-                                <option value="draw">무승부</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">게임 추가</button>
-                    </form>
-                </div>
-                <div class="col-md-8">
-                    <div class="table-responsive">
-                        <table class="table" id="gamesTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>흑돌</th>
-                                    <th>백돌</th>
-                                    <th>흑돌 점수</th>
-                                    <th>백돌 점수</th>
-                                    <th>승자</th>
-                                    <th>날짜</th>
-                                    <th>작업</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
+            <h3>게임 목록</h3>
+            <div class="table-responsive">
+                <table class="table" id="gamesTable">
+                    <thead>
+                        <tr>
+                            <th>게임 ID</th>
+                            <th>기전명</th>
+                            <th>흑돌</th>
+                            <th>백돌</th>
+                            <th>결과</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
-        // 플레이어 목록 로드
-        function loadPlayers() {
-            fetch('/api/players')
-                .then(response => response.json())
-                .then(players => {
-                    const tbody = document.querySelector('#playersTable tbody');
-                    const blackSelect = document.querySelector('#blackPlayer');
-                    const whiteSelect = document.querySelector('#whitePlayer');
-                    
-                    tbody.innerHTML = '';
-                    blackSelect.innerHTML = '';
-                    whiteSelect.innerHTML = '';
-                    
-                    players.forEach(player => {
-                        // 테이블에 플레이어 추가
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>${player.player_id}</td>
-                                <td>${player.player_name}</td>
-                                <td>${new Date(player.created_at).toLocaleString()}</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deletePlayer(${player.player_id})">삭제</button>
-                                </td>
-                            </tr>
-                        `;
-                        
-                        // 선택 상자에 플레이어 추가
-                        const option = `<option value="${player.player_id}">${player.player_name}</option>`;
-                        blackSelect.innerHTML += option;
-                        whiteSelect.innerHTML += option;
-                    });
-                });
-        }
-
         // 게임 목록 로드
         function loadGames() {
             fetch('/api/games')
@@ -160,102 +58,18 @@
                         tbody.innerHTML += `
                             <tr>
                                 <td>${game.game_id}</td>
-                                <td>${game.black_player_name}</td>
-                                <td>${game.white_player_name}</td>
-                                <td>${game.black_score}</td>
-                                <td>${game.white_score}</td>
-                                <td>${game.winner === 'black' ? '흑돌' : game.winner === 'white' ? '백돌' : '무승부'}</td>
-                                <td>${new Date(game.game_date).toLocaleString()}</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteGame(${game.game_id})">삭제</button>
-                                </td>
+                                <td>${game.tournament}</td>
+                                <td>${game.black_player}</td>
+                                <td>${game.white_player}</td>
+                                <td>${game.result || ''}</td>
                             </tr>
                         `;
                     });
-                });
-        }
-
-        // 플레이어 추가
-        document.getElementById('playerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const playerName = document.getElementById('playerName').value;
-            
-            fetch('/api/players', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ player_name: playerName }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                document.getElementById('playerName').value = '';
-                loadPlayers();
-            })
-            .catch(error => alert('오류가 발생했습니다: ' + error));
-        });
-
-        // 게임 추가
-        document.getElementById('gameForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const gameData = {
-                black_player_id: document.getElementById('blackPlayer').value,
-                white_player_id: document.getElementById('whitePlayer').value,
-                black_score: parseFloat(document.getElementById('blackScore').value),
-                white_score: parseFloat(document.getElementById('whiteScore').value),
-                winner: document.getElementById('winner').value
-            };
-            
-            fetch('/api/games', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(gameData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                document.getElementById('gameForm').reset();
-                loadGames();
-            })
-            .catch(error => alert('오류가 발생했습니다: ' + error));
-        });
-
-        // 플레이어 삭제
-        function deletePlayer(playerId) {
-            if (confirm('정말로 이 플레이어를 삭제하시겠습니까?')) {
-                fetch(`/api/players/${playerId}`, {
-                    method: 'DELETE',
                 })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    loadPlayers();
-                    loadGames();
-                })
-                .catch(error => alert('오류가 발생했습니다: ' + error));
-            }
-        }
-
-        // 게임 삭제
-        function deleteGame(gameId) {
-            if (confirm('정말로 이 게임을 삭제하시겠습니까?')) {
-                fetch(`/api/games/${gameId}`, {
-                    method: 'DELETE',
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    loadGames();
-                })
-                .catch(error => alert('오류가 발생했습니다: ' + error));
-            }
+                .catch(error => alert('게임 목록 로드 중 오류가 발생했습니다: ' + error));
         }
 
         // 초기 데이터 로드
-        loadPlayers();
         loadGames();
     </script>
 </body>
