@@ -26,4 +26,4 @@ def get_mysql_connection():
 def close_connection(connection):
     if connection and connection.is_connected():
         connection.close()
-        print("MySQL 연결이 종료되었습니다.") 
+        print("MySQL 연결이 종료되었습니다.")
