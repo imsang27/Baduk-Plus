@@ -46,7 +46,7 @@ Baduk Plus는 바둑 대국의 수순과 관련 정보를 체계적으로 저장
 ---
 - MySQL (ERD, 프로시저, 제약조건 포함)
 - Firebase Realtime Database
-- Python (firebase-admin, pymysql 등)
+- Python (firebase-admin, mysql-connector-python 등)
 - HTML + JS (웹 UI)
 - Mermaid.js (ERD 시각화)
 
@@ -107,3 +107,31 @@ baduk-plus/
 - [ ] 불필요한 파일 정리 (.log, 테스트용 데이터 등)
 - [ ] 시연 영상 또는 스크린샷 포함 (선택)
 - [ ] 제출 전 기능 점검 완료
+
+## MySQL 연결 설정
+
+Firebase와 MySQL 연동을 위해 다음 환경 변수들을 설정해야 합니다:
+
+1. `.env` 파일을 프로젝트 루트 디렉토리에 생성하고 다음 변수들을 설정하세요:
+
+```
+MYSQL_HOST=your_mysql_host
+MYSQL_DATABASE=your_database_name
+MYSQL_USER=your_username
+MYSQL_PASSWORD=your_password
+```
+
+2. 필요한 Python 패키지 설치:
+```bash
+pip install mysql-connector-python python-dotenv
+```
+
+3. MySQL 데이터베이스에 users 테이블 생성:
+```sql
+CREATE TABLE users (
+    user_id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    created_at DATETIME
+);
+```
