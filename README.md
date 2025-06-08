@@ -79,10 +79,11 @@ Baduk-Plus/
 - [x] 디렉토리 구조 명확화
 
 ### 🗃️ 2. MySQL 구축
-- [x] ERD 설계 ([[erd.mmd]])
-- [x] 테이블 생성 스크립트 작성 ([[schema.sql]])
+- [x] ERD 설계
+- [x] 테이블 생성 스크립트 작성 (`create_tables.sql`, `mysql_tables.sql`)
 	- [x] 기본키 / 외래키 / 제약조건 등 포함
-- [x] 저장 프로시저 작성 (입력, 조회, 삭제 등) ([[procedures.sql]])
+- [x] 저장 프로시저 작성 (`stored_procedures.sql`)
+- [x] MySQL 연결 설정 (`mysql_connection.py`)
 - [ ] ERD → PDF로 시각화 (선택사항)
 
 ### 🔥 3. Firebase 구축
@@ -93,14 +94,14 @@ Baduk-Plus/
 ### 🔄 4. 연동 및 자동화
 - [x] 더미 데이터 생성 스크립트 작성 (`generate_baduk_gibo.py`)
 - [x] Firebase에 더미 수순 자동 삽입 (`firebase_update.py`)
-- [x] MySQL-Firebase 간 연동 구현
-  - [x] Firebase -> MySQL로 가는 단방향 동기화 구현 (예: 결과 요약을 MySQL로 동기화)
-  - [x] 실시간 데이터 변경 감지 및 동기화 구현
+- [x] MySQL-Firebase 간 연동 구현 (`firebase_mysql_sync.py`)
+- [x] 양방향 상태 동기화 구현 (예: 결과 요약 동기화)
 
 ### 👁️ 5. 시각화 및 UI
-- [ ] 실시간 UI 구현 (`viewer.html`)
-- [ ] UI 시각자료 정리 (`ui_screenshots/`)
-- [ ] Firebase Listener로 수순 업데이트 UI 동기화
+- [x] 실시간 UI 구현 (`viewer.html`)
+- [ ] UI 시각자료 정리 (`screenshots/`)
+- [x] Firebase Listener로 수순 업데이트 UI 동기화
+- [x] Flask 기반 웹 서버 구현 (`app.py`)
 
 ### 📦 6. 최종 제출 준비
 - [ ] 전체 프로젝트 압축(zip)
