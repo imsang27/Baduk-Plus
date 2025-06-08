@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baduk Plus - 실시간 대국 관전</title>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+    <script src="js/baduk-board.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        .board-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .info-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .baduk-board {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #DEB887;
+            position: relative;
+        }
+        .game-info {
+            margin-top: 20px;
+        }
+        .player-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .move-history {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="board-container">
+            <h2>실시간 바둑 대국</h2>
+            <div class="baduk-board" id="badukBoard">
+                <!-- 바둑판이 여기에 렌더링됩니다 -->
+            </div>
+            <div class="game-info">
+                <div class="player-info">
+                    <div id="blackPlayer">흑: 로딩중...</div>
+                    <div id="whitePlayer">백: 로딩중...</div>
+                </div>
+                <div id="gameStatus">대국 상태: 로딩중...</div>
+            </div>
+        </div>
+        <div class="info-panel">
+            <h3>대국 정보</h3>
+            <div id="gameDetails">
+                <p>기전명: <span id="tournamentName">-</span></p>
+                <p>룰: <span id="rules">-</span></p>
+                <p>덤: <span id="komi">-</span></p>
+            </div>
+            <div class="move-history">
+                <h4>수순 기록</h4>
+                <div id="moveList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase 설정
+        const firebaseConfig = {
+            // Firebase 설정을 여기에 입력하세요
+        };
+
+        // Firebase 초기화
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let badukBoard;
+
+        // 실시간 데이터 리스너
+        function initializeGameListener(gameId) {
+            const gameRef = database.ref(`games/${gameId}`);
+            gameRef.on('value', (snapshot) => {
+                const gameData = snapshot.val();
+                if (gameData) {
+                    updateGameInfo(gameData);
+                    badukBoard.updateFromGameData(gameData);
+                }
+            });
+        }
+
+        // 게임 정보 업데이트
+        function updateGameInfo(gameData) {
+            document.getElementById('tournamentName').textContent = gameData.기전명;
+            document.getElementById('rules').textContent = gameData.대국규칙.룰;
+            document.getElementById('komi').textContent = gameData.대국규칙.덤;
+            
+            const blackPlayer = gameData.대국자.흑;
+            const whitePlayer = gameData.대국자.백;
+            
+            document.getElementById('blackPlayer').textContent = 
+                `흑: ${blackPlayer.이름} (${blackPlayer.기력})`;
+            document.getElementById('whitePlayer').textContent = 
+                `백: ${whitePlayer.이름} (${whitePlayer.기력})`;
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            // 바둑판 초기화
+            badukBoard = new BadukBoard('badukBoard');
+            
+            // TODO: 실제 게임 ID를 가져오는 로직 구현
+            const gameId = '20240609_001';
+            initializeGameListener(gameId);
+        };
+    </script>
+</body>
+</html>
