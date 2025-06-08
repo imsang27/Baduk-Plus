@@ -88,13 +88,14 @@ Baduk-Plus/
 ### 🔥 3. Firebase 구축
 - [x] 실시간 DB 구조 설계
 - [x] 구조 시각화 자료 제작 (`firebase_structure.json`)
-- [x] Python을 이용한 Firebase 업데이트 코드 구현 (`simulate_match.py`)
+- [x] Python을 이용한 Firebase 업데이트 코드 구현 (`firebase_update.py`)
 
 ### 🔄 4. 연동 및 자동화
 - [x] 더미 데이터 생성 스크립트 작성 (`generate_baduk_gibo.py`)
-- [x] Firebase에 더미 수순 자동 삽입 (`simulate_match.py`)
-- [ ] MySQL-Firebase 간 연동 구현
-  - [ ] Firebase -> MySQL로 가는 단방향 동기화 구현 (예: 결과 요약을 MySQL로 동기화)
+- [x] Firebase에 더미 수순 자동 삽입 (`firebase_update.py`)
+- [x] MySQL-Firebase 간 연동 구현
+  - [x] Firebase -> MySQL로 가는 단방향 동기화 구현 (예: 결과 요약을 MySQL로 동기화)
+  - [x] 실시간 데이터 변경 감지 및 동기화 구현
 
 ### 👁️ 5. 시각화 및 UI
 - [ ] 실시간 UI 구현 (`viewer.html`)
