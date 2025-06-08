@@ -1,6 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
-from mysql_connection import get_mysql_connection, close_connection
+from MySQL.mysql_connection import get_mysql_connection, close_connection
 import json
 import time
 
