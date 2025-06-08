@@ -94,9 +94,9 @@ Baduk Plus는 바둑 대국 정보를 MySQL에 체계적으로 저장하고, 대
 ```
 baduk-plus/
 ├── docs          # PRD.md 및 여러 md 파일
-├── MySQL/        # ERD, 테이블, 프로시저
 ├── Firebase/     # 실시간 DB 구조 및 연동 코드
 ├── Interface/    # 웹 기반 UI 캡처 및 코드
+├── MySQL/        # ERD, 테이블, 프로시저
 └── README.md
 ```
 
