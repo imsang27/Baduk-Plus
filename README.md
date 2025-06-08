@@ -74,34 +74,34 @@ Baduk-Plus/
 
 ### 🧩 1. 기본 설계 및 문서화
 - [x] 주제 선정: 바둑 대국 실시간 기록 및 중계
-- [x] README 작성
-- [x] PRD 작성 (요구사항 + 일정 포함)
+- [x] README 작성 ([`README.md`](https://github.com/imsang27/Baduk-Plus/blob/main/README.md))
+- [x] PRD 작성 (요구사항 + 일정 포함) ([`docs/PRD.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/PRD.md))
 - [x] 디렉토리 구조 명확화
 
 ### 🗃️ 2. MySQL 구축
-- [x] ERD 설계
-- [x] 테이블 생성 스크립트 작성 (`create_tables.sql`, `mysql_tables.sql`)
+- [x] ERD 설계 ([`docs/ERD.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/ERD.md))
+- [x] 테이블 생성 스크립트 작성 ([`MySQL/create_tables.sql`](https://github.com/imsang27/Baduk-Plus/blob/main/MySQL/create_tables.sql), [`MySQL/mysql_tables.sql`](https://github.com/imsang27/Baduk-Plus/blob/main/MySQL/mysql_tables.sql))
 	- [x] 기본키 / 외래키 / 제약조건 등 포함
-- [x] 저장 프로시저 작성 (`stored_procedures.sql`)
-- [x] MySQL 연결 설정 (`mysql_connection.py`)
+- [x] 저장 프로시저 작성 ([`MySQL/stored_procedures.sql`](https://github.com/imsang27/Baduk-Plus/blob/main/MySQL/stored_procedures.sql))
+- [x] MySQL 연결 설정 ([`MySQL/mysql_connection.py`](https://github.com/imsang27/Baduk-Plus/blob/main/MySQL/mysql_connection.py))
 - [ ] ERD → PDF로 시각화 (선택사항)
 
 ### 🔥 3. Firebase 구축
-- [x] 실시간 DB 구조 설계
-- [x] 구조 시각화 자료 제작 (`firebase_structure.json`)
-- [x] Python을 이용한 Firebase 업데이트 코드 구현 (`firebase_update.py`)
+- [x] 실시간 DB 구조 설계 ([`Firebase/firebase_structure.json`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_structure.json))
+- [x] 구조 시각화 자료 제작 ([`Firebase/firebase_structure.json`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_structure.json))
+- [x] Python을 이용한 Firebase 업데이트 코드 구현 ([`Firebase/firebase_update.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_update.py))
 
 ### 🔄 4. 연동 및 자동화
-- [x] 더미 데이터 생성 스크립트 작성 (`generate_baduk_gibo.py`)
-- [x] Firebase에 더미 수순 자동 삽입 (`firebase_update.py`)
-- [x] MySQL-Firebase 간 연동 구현 (`firebase_mysql_sync.py`)
+- [x] 더미 데이터 생성 스크립트 작성 ([`Firebase/generate_baduk_gibo.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/generate_baduk_gibo.py))
+- [x] Firebase에 더미 수순 자동 삽입 ([`Firebase/firebase_update.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_update.py))
+- [x] MySQL-Firebase 간 연동 구현 ([`Firebase/firebase_mysql_sync.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_mysql_sync.py))
 - [x] 양방향 상태 동기화 구현 (예: 결과 요약 동기화)
 
 ### 👁️ 5. 시각화 및 UI
-- [x] 실시간 UI 구현 (`viewer.html`)
-- [ ] UI 시각자료 정리 (`screenshots/`)
+- [x] 실시간 UI 구현 ([`Interface/viewer.html`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/viewer.html))
+- [ ] UI 시각자료 정리 ([`Interface/screenshots/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/screenshots))
 - [x] Firebase Listener로 수순 업데이트 UI 동기화
-- [x] Flask 기반 웹 서버 구현 (`app.py`)
+- [x] Flask 기반 웹 서버 구현 ([`Interface/app.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/app.py))
 
 ### 📦 6. 최종 제출 준비
 - [ ] 전체 프로젝트 압축(zip)
