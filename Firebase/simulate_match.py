@@ -1,11 +1,10 @@
-import random
-import time
-from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, db
 from dotenv import load_dotenv
 import os
-from generate_baduk_gibo import generate_rule_info, generate_time_settings, generate_game_result, generate_dummy_gibo
+from datetime import datetime
+from generate_baduk_gibo import generate_rule_info, generate_time_settings, generate_game_result, generate_dummy_gibo, generate_num_moves
+import random
 
 load_dotenv()
 FIREBASE_DB_URL = os.getenv("FIREBASE_DB_URL")
@@ -22,64 +21,32 @@ except Exception as e:
     print("❌ Firebase 초기화 실패:", e)
     exit(1)
 
-# 시뮬레이션할 매치 ID
-match_id = "game_20250604_001"
-
-# 시작 시간 기준
-start_time = datetime.now()
-
-# 게임 규칙 및 설정 생성
+# 더미 대국 정보 생성
+match_id = f"더미_대국_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 rule_info = generate_rule_info()
-time_info = generate_time_settings()
-result_info = generate_game_result()
-num_moves = random.randint(10, 15)
+time_settings = generate_time_settings()
+num_moves = generate_num_moves()  # generate_baduk_gibo.py의 함수 사용
 
-# 흑/백 대국자 정보
-match_data = {
-    "players": {
-        "black": {"name": "Lee Sedol", "rank": "9단", "is_pro": True},
-        "white": {"name": "AlphaGo", "rank": "9단", "is_pro": False}
+baduk_game = {
+    "기전명": match_id,
+    "대국자": {
+        "흑": { "이름": "Lee Sedol", "기력": "9단", "프로기사": True },
+        "백": { "이름": "AlphaGo", "기력": "9단", "프로기사": False }
     },
-    "rule": rule_info["룰"],
-    "komi": rule_info["덤"],
-    "time_settings": {
-        "main_time": time_info["제한시간"],
-        "byo_yomi": time_info["초읽기"]
+    "대국 규칙": {
+        "룰": rule_info["룰"],
+        "덤": rule_info["덤"],
+        "시간 설정": {
+            "제한시간": time_settings["제한시간"],
+            "초읽기": time_settings["초읽기"]
+        }
     },
-    "start_time": start_time.isoformat(),
-    "moves": {},
-    "status": "ongoing"
+    "수순": generate_dummy_gibo(num_moves),
+    "대국 상태": "종료",
+    "대국 결과": generate_game_result(num_moves)  # 수순 개수를 전달
 }
 
-# 초기 match 등록
-ref = db.reference(f"matches/{match_id}")
-ref.set(match_data)
-
-# 기보 생성 및 저장
-gibo = generate_dummy_gibo(num_moves)
-for move_number, move_data in gibo.items():
-    x, y = move_data["좌표"].split("-")
-    x = ord(x) - ord('A') + 1
-    y = int(y)
-    color = "black" if move_data["차례"] == "흑" else "white"
-    timestamp = datetime.now().isoformat()
-
-    move_info = {
-        "x": x,
-        "y": y,
-        "color": color,
-        "timestamp": timestamp
-    }
-
-    ref.child("moves").child(move_number).set(move_info)
-    print(f"{move_number}번째 수: {color} ({x},{y}) - {timestamp}")
-    time.sleep(1)
-
-# 결과 저장
-result_data = {
-    "winner_color": "white" if result_info["승자"] == "백" else "black",
-    "reason": result_info["승리_방식"],
-    "point_difference": result_info["집차이"]
-}
-ref.child("status").set("finished")
-ref.child("result").set(result_data)
+# Firebase에 저장
+ref = db.reference(f"기보/{match_id}")
+ref.set(baduk_game)
+print(f"Firebase에 더미 대국 데이터가 저장되었습니다. (기전명: {match_id})")
