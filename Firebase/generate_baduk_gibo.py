@@ -2,9 +2,9 @@ import json
 import random
 from datetime import datetime
 
-def num_to_korean_coord(x, y):
+def _num_to_korean_coord(x, y):
     x_labels = [chr(i) for i in range(ord('A'), ord('T')+1) if i != ord('I')]
-    return f"{x_labels[x - 1]}-{y}"
+    return f"{x_labels[x - 1]}, {y}"
 
 def generate_rule_info():
     rules = [
@@ -27,7 +27,7 @@ def generate_time_settings():
     ]
     return random.choice(time_settings)
 
-def generate_game_result():
+def generate_game_result(num_moves):
     winner = random.choice(["흑", "백"])
     win_type = random.choice(["집계승", "불계승", "시간승"])
     if win_type == "집계승":
@@ -40,26 +40,29 @@ def generate_game_result():
     return {
         "승자": winner,
         "승리_방식": win_type,
-        "집차이": result
+        "집차이": result,
+        "총수순": f"{num_moves}수"
     }
 
-def generate_dummy_gibo(num_moves=20):
+def generate_dummy_gibo(num_moves):
     gibo = {}
     for move_num in range(1, num_moves + 1):
         x = random.randint(1, 19)
         y = random.randint(1, 19)
         move = {
-            "좌표": num_to_korean_coord(x, y),
+            "좌표": _num_to_korean_coord(x, y),
             "차례": "흑" if move_num % 2 == 1 else "백"
         }
         gibo[str(move_num)] = move
     return gibo
 
+def generate_num_moves():
+    return random.randint(10, 15)
+
 if __name__ == "__main__":
     rule_info = generate_rule_info()
     time_info = generate_time_settings()
-    result_info = generate_game_result()
-    num_moves = random.randint(10, 15)
+    num_moves = generate_num_moves()
     
     # 현재 시간을 기반으로 고유한 기전명 생성
     current_time = datetime.now()
@@ -71,15 +74,18 @@ if __name__ == "__main__":
             "흑": { "이름": "흑번", "기력": "초단", "프로기사": False },
             "백": { "이름": "백번", "기력": "2단", "프로기사": False }
         },
-        "대국 규칙": rule_info["룰"],
-        "덤": rule_info["덤"],
-        "제한시간": time_info["제한시간"],
-        "초읽기": time_info["초읽기"],
+        "대국 규칙": {
+            "룰": rule_info["룰"],
+            "덤": rule_info["덤"],
+            "시간 설정": {
+                "제한시간": time_info["제한시간"],
+                "초읽기": time_info["초읽기"]
+            }
+        },
         "대국 시작시간": datetime.now().isoformat(),
-        "기보": generate_dummy_gibo(num_moves),
+        "수순": generate_dummy_gibo(num_moves),
         "대국 상태": "종료",
-        "대국 결과": result_info,
-        "총수순": f"{num_moves}수"
+        "대국 결과": generate_game_result(num_moves)
     }
 
     with open("더미_기보.json", "w", encoding="utf-8") as f:
