@@ -56,14 +56,14 @@ Baduk Plus는 바둑 대국의 모든 정보를 Firebase에 저장하고, 그 �
 8. **간단한 인터페이스(UI)나 앱을 만들어 실제 데이터를 조회하고 확인할 수 있도록 한다.**
     - 웹 페이지, 모바일 앱, 콘솔 앱 등 어떤 형태든 무관
     - 조회 결과가 시각적으로 확인 가능해야 함
-    => [`Interface/app.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/app.py), [`Interface/viewer.html`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/viewer.html), [`Interface/templates/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/templates), [`Interface/js/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/js), [`Interface/screenshots/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/screenshots)
+    => [`Interface/app.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/app.py), [`Interface/viewer.html`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/viewer.html), [`Interface/templates/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/templates), [`Interface/Screenshot/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/Screenshot)
 
 9. **전체 결과물을 압축하여 이강의동 데이터베이스 구축 프로젝트 과제로 제출한다.**
     - 구성 예시:
         - `/MySQL/` (ERD, 테이블 생성 SQL, 프로시저 등)
         - `/Firebase/` (DB 구조 스크린샷, 연동 코드 등)
         - `/Interface/` (UI 캡처, 설명)
-    => [`docs/README.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/README.md), [`docs/PRD.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/PRD.md), [`docs/ERD.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/ERD.md)
+    => [`docs/PRD.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/PRD.md), [`docs/erd.mmd.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/erd.mmd.md), [`docs/schema.sql.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/schema.sql.md), [`docs/procedures.sql.md`](https://github.com/imsang27/Baduk-Plus/blob/main/docs/procedures.sql.md)
 
 # 3. 주요 기능 정의
 ---
@@ -107,6 +107,7 @@ baduk-plus/
 │   ├── app.py             # Flask 서버
 │   ├── Screenshot/        # UI 스크린샷
 │   ├── templates/         # HTML 템플릿
+│   │   └── index.html     # 메인 페이지
 │   └── viewer.html        # 실시간 뷰어
 ├── MySQL/                 # MySQL 관련 파일
 │   ├── create_tables.sql  # 테이블 생성 스크립트
@@ -117,7 +118,17 @@ baduk-plus/
 └── requirements.txt      # Python 패키지 의존성
 ```
 
-# 6. 일정
+# 6. 의존성 패키지
+---
+```
+mysql-connector-python  # MySQL 연결
+firebase-admin         # Firebase 연동
+python-dotenv         # 환경 변수 관리
+flask                 # 웹 서버
+plotly               # 데이터 시각화
+```
+
+# 7. 일정
 ---
 **진행 기간**: 2025년 5월 26일(월) ~ 6월 9일(월), 총 3주간 진행
 
