@@ -93,12 +93,28 @@ Baduk Plus는 바둑 대국의 모든 정보를 Firebase에 저장하고, 그 �
 ---
 ```
 baduk-plus/
-├── docs/          # PRD.md 및 여러 md 파일
-├── Firebase/      # 실시간 DB 구조 및 연동 코드
-├── Interface/     # 웹 기반 UI 캡처 및 코드
-├── MySQL/         # ERD, 테이블, 프로시저
-├── requirements.txt  # Python 패키지 의존성
-└── README.md
+├── docs/                    # 문서화 파일
+│   ├── erd.mmd.md          # ERD 문서
+│   ├── PRD.md              # 프로젝트 요구사항 문서
+│   ├── procedures.sql.md   # 저장 프로시저 문서
+│   └── schema.sql.md       # 스키마 문서
+├── Firebase/               # Firebase 관련 코드
+│   ├── firebase_auth.json  # Firebase 인증 정보
+│   ├── firebase_mysql_sync.py  # MySQL-Firebase 동기화
+│   ├── firebase_update.py      # Firebase 업데이트
+│   └── generate_baduk_gibo.py  # 더미 데이터 생성
+├── Interface/              # 웹 인터페이스
+│   ├── app.py             # Flask 서버
+│   ├── Screenshot/        # UI 스크린샷
+│   ├── templates/         # HTML 템플릿
+│   └── viewer.html        # 실시간 뷰어
+├── MySQL/                 # MySQL 관련 파일
+│   ├── create_tables.sql  # 테이블 생성 스크립트
+│   ├── mysql_connection.py # MySQL 연결 설정
+│   ├── mysql_tables.sql   # 테이블 정의
+│   └── stored_procedures.sql # 저장 프로시저
+├── requirements.txt      # Python 패키지 의존성
+└── README.md             # 프로젝트 설명
 ```
 
 # 6. 일정
