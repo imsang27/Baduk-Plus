@@ -54,16 +54,28 @@ Baduk Plus는 바둑 대국의 수순과 관련 정보를 체계적으로 저장
 ---
 ```
 Baduk-Plus/
-├── Firebase/   # DB 구조 스크린샷, 연동 코드 등
+├── docs/                    # 문서화 파일
+│   ├── erd.mmd.md           # ERD 문서
+│   ├── PRD.md               # 프로젝트 요구사항 문서
+│   ├── procedures.sql.md    # 저장 프로시저 문서
+│   └── schema.sql.md        # 스키마 문서
+├── Firebase/                # Firebase 관련 코드
+│   ├── firebase_auth.json
 │   ├── firebase_mysql_sync.py
 │   ├── firebase_update.py
-│   ├── generate_baduk_gibo.py
-│   ├── firebase_structure.json
-│   └── ...
-├── MySQL/      # ERD, 테이블 생성 SQL, 프로시저 등 등
+│   └── generate_baduk_gibo.py
+├── Interface/               # 웹 인터페이스
+│   ├── app.py
+│   ├── Screenshot/
+│   ├── templates/
+│   └── viewer.html
+├── MySQL/                   # MySQL 관련 파일
+│   ├── create_tables.sql
+│   ├── mysql_connection.py
 │   ├── mysql_tables.sql
-│   └── mysql_connection.py
-└── README.md
+│   └── stored_procedures.sql
+├── requirements.txt         # Python 패키지 의존성
+└── README.md                # 프로젝트 설명
 ```
 
 ## 💬 한줄 요약
@@ -93,83 +105,3 @@ Baduk-Plus/
 
 ### 🔄 4. 연동 및 자동화
 - [x] 더미 데이터 생성 스크립트 작성 ([`Firebase/generate_baduk_gibo.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/generate_baduk_gibo.py))
-- [x] Firebase에 더미 수순 자동 삽입 ([`Firebase/firebase_update.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_update.py))
-- [x] MySQL-Firebase 간 연동 구현 ([`Firebase/firebase_mysql_sync.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Firebase/firebase_mysql_sync.py))
-- [x] 양방향 상태 동기화 구현 (예: 결과 요약 동기화)
-
-### 👁️ 5. 시각화 및 UI
-- [x] 실시간 UI 구현 ([`Interface/viewer.html`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/viewer.html))
-- [ ] UI 시각자료 정리 ([`Interface/screenshots/`](https://github.com/imsang27/Baduk-Plus/tree/main/Interface/screenshots))
-- [x] Firebase Listener로 수순 업데이트 UI 동기화
-- [x] Flask 기반 웹 서버 구현 ([`Interface/app.py`](https://github.com/imsang27/Baduk-Plus/blob/main/Interface/app.py))
-
-### 📦 6. 최종 제출 준비
-- [ ] 전체 프로젝트 압축(zip)
-- [ ] 불필요한 파일 정리 (.log, 테스트용 데이터 등)
-- [ ] 시연 영상 또는 스크린샷 포함 (선택)
-- [ ] 제출 전 기능 점검 완료
-
-## MySQL 연결 설정
-
-Firebase와 MySQL 연동을 위해 다음 환경 변수들을 설정해야 합니다:
-
-1. `.env` 파일을 프로젝트 루트 디렉토리에 생성하고 다음 변수들을 설정하세요:
-
-```
-MYSQL_HOST = your_mysql_host
-MYSQL_DATABASE = your_database_name
-MYSQL_USER = your_username
-MYSQL_PASSWORD = your_password
-```
-
-2. 필요한 Python 패키지 설치:
-```bash
-pip install mysql-connector-python python-dotenv
-```
-
-## ERD/테이블 구조
-
-- MySQL: `game_results` 테이블 (game_id, result, created_at)
-- Firebase: games/{game_id}/대국 결과
-
-## 예시 데이터 구조
-
-Firebase:
-```json
-{
-  "games": {
-    "20240609_001": {
-      "기전명": "더미_대국_20240609_001",
-      "대국자": {
-        "흑": { "이름": "Lee Sedol", "기력": "9단", "프로기사": true },
-        "백": { "이름": "AlphaGo", "기력": "9단", "프로기사": false }
-      },
-      "대국 규칙": {
-        "룰": "한국룰",
-        "덤": "흑 공제 6.5집",
-        "시간 설정": {
-          "제한시간": "2시간 30분",
-          "초읽기": "30초 초읽기 3번"
-        }
-      },
-      "수순": { ... },
-      "대국 상태": "종료",
-      "대국 결과": {
-        "승자": "흑",
-        "승리_방식": "집계승",
-        "집차이": "2.5집",
-        "총수순": "150수"
-      }
-    }
-  }
-}
-```
-
-MySQL:
-```sql
-CREATE TABLE game_results (
-    game_id VARCHAR(255) PRIMARY KEY,
-    result VARCHAR(50) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
