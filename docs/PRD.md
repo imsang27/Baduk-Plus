@@ -93,10 +93,11 @@ Baduk Plus는 바둑 대국의 모든 정보를 Firebase에 저장하고, 그 �
 ---
 ```
 baduk-plus/
-├── docs          # PRD.md 및 여러 md 파일
-├── Firebase/     # 실시간 DB 구조 및 연동 코드
-├── Interface/    # 웹 기반 UI 캡처 및 코드
-├── MySQL/        # ERD, 테이블, 프로시저
+├── docs/          # PRD.md 및 여러 md 파일
+├── Firebase/      # 실시간 DB 구조 및 연동 코드
+├── Interface/     # 웹 기반 UI 캡처 및 코드
+├── MySQL/         # ERD, 테이블, 프로시저
+├── requirements.txt  # Python 패키지 의존성
 └── README.md
 ```
 
