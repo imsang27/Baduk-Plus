@@ -74,8 +74,8 @@ Baduk-Plus/
 │   ├── mysql_connection.py
 │   ├── mysql_tables.sql
 │   └── stored_procedures.sql
-├── requirements.txt         # Python 패키지 의존성
-└── README.md                # 프로젝트 설명
+├── README.md                # 프로젝트 설명
+└── requirements.txt         # Python 패키지 의존성
 ```
 
 ## 💬 한줄 요약
