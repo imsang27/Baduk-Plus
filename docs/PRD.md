@@ -113,8 +113,8 @@ baduk-plus/
 │   ├── mysql_connection.py # MySQL 연결 설정
 │   ├── mysql_tables.sql   # 테이블 정의
 │   └── stored_procedures.sql # 저장 프로시저
-├── requirements.txt      # Python 패키지 의존성
-└── README.md             # 프로젝트 설명
+├── README.md             # 프로젝트 설명
+└── requirements.txt      # Python 패키지 의존성
 ```
 
 # 6. 일정
